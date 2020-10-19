@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from shutil import copyfile, rmtree
 from face_main import AutoCrop as ac
-from numpy import *
+# from numpy import *
 from itertools import chain
 from PIL import Image
 from imutils.face_utils import FaceAligner
@@ -57,7 +57,10 @@ def detected_face(ac, face_path):
     fa = FaceAligner(predictor, desiredFaceWidth=256)
     image = cv_imread(face_path)
     # image = imutils.resize(image, width=800) # added but not runned
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    if len(image.shape) == 3:
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    else:
+        gray = image
     # cv2.imshow("Input", image)
     rects = detector(gray)
 
@@ -75,6 +78,22 @@ def detected_face(ac, face_path):
         # return ac.crop(faceAligned)
 
 
+# c = ac(96, 96, 10)
+# names = glob.glob(r"F:\LFW\lfw-deepfunneled_with_mask\*\*.jpg")
+# names = sorted(names)
+# # random.shuffle(names)
+# for i in names:
+#     cropped = detected_face(c, i)
+#     if (cropped is None):
+#         print("no face:", i)
+#         os.remove(i)
+#     else:
+#         print("write:", i)
+#         Image.fromarray(cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB)).save(i)
+#     # break
+
+
+
 def get_file_size_full(filePath):
     return os.path.getsize(filePath)
 
@@ -88,7 +107,10 @@ def getImageVar(imgPath):
 
 
 def crop_to_iv(image):
-    img2gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    if len(image.shape) == 3:
+        img2gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    else:
+        img2gray = image
     imageVar = cv2.Laplacian(img2gray, cv2.CV_64F).var()
 
     return imageVar
@@ -130,8 +152,8 @@ def del_less_two():
     #         print("remove:", n)
 
 
-def lpls(path, test=True):
-    c = ac(12)
+def lpls(path, test=True, limit=60):
+    c = ac(96, 96, 10)
     if test:
         # im = cv_imread(path)
         cropped = detected_face(c, path)
@@ -141,19 +163,24 @@ def lpls(path, test=True):
         print(iv)
         return None
 
-    names = glob.glob("F:/all_faces/*")
+    names = glob.glob("F:/CASIA/CASIA-WebFace-112X96/*/*.jpg")
     names = sorted(names)
+    # print(names[0])
+    idx = names.index(r"F:/CASIA/CASIA-WebFace-112X96\0000105\001.jpg")
+    print(idx)
+    # quit()
 
-    for i in names:
+    for i in names[idx:]:
         cropped = detected_face(c, i)
         if (cropped is None):
             print("no face:", i)
+            os.remove(i)
         else:
             iv = round(crop_to_iv(cropped), 2)
             print(i, "\t\t{}".format(iv))
-            if iv < 170:
-                # os.remove(i)
-                print("< 170:", i, "\t\t{}".format(iv))
+            if iv < limit:
+                os.remove(i)
+                print("< {}:".format(limit), i, "\t\t{}".format(iv))
 
 
 # lpls("F:\chinese_cleaned\李炜\李炜_2.jpg")
@@ -252,5 +279,17 @@ def labeled_all_imgs():
             os.rename(j, ''.join(lazy_pinyin(j)))
 
 
-labeled_all()
-labeled_all_imgs()
+def half_black(path):
+    image = Image.open(path)
+    new_image = Image.new('L', (96, 96), (0))
+    new_image.paste(image.crop((0,0,96,48)))
+    # print(new_image)
+    new_image.save(path)
+
+
+# names = glob.glob("F:/CHN_faces/chinese_cleaned_96px_grayscale_labeled/*/*.jpg")
+# names = sorted(names)
+# for i in names:
+#     print(i)
+#     half_black(i)
+lpls("", False)
