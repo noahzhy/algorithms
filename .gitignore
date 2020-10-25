@@ -1,3 +1,5 @@
 datasets/*
 glasses/*
 dataset/*
+mohu/*
+predict_imgs/*

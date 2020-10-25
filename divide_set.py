@@ -43,6 +43,6 @@ def train_test_split(path:str, target_dir:str, rate:int):
 
 
 if __name__ == "__main__":
-    # random_choose("F:\CASIA\CASIA-WebFace-96X96_grayscale", r"glasses\no_glasses")
-    res = train_test_split("glasses", "dataset", .8)
+    # random_choose("F:\CASIA\CASIA-WebFace-96X96_grayscale", r"mohu\clear")
+    res = train_test_split("mohu", "dataset", .8)
     print(res)
