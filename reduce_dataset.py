@@ -6,7 +6,7 @@ import random
 import imutils
 import unicodedata
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from shutil import copyfile, rmtree
 from face_main import AutoCrop as ac
 # from numpy import *
@@ -14,7 +14,7 @@ from itertools import chain
 from PIL import Image
 from imutils.face_utils import FaceAligner
 from imutils import face_utils
-from pypinyin import lazy_pinyin, Style, pinyin
+# from pypinyin import lazy_pinyin, Style, pinyin
 
 
 predictor_path = "models/shape_predictor_5_face_landmarks.dat"
@@ -152,7 +152,7 @@ def del_less_two():
     #         print("remove:", n)
 
 
-def lpls(path, test=True, limit=60):
+def lpls(path, start="0000147", limit=60, test=True):
     c = ac(96, 96, 10)
     if test:
         # im = cv_imread(path)
@@ -166,7 +166,7 @@ def lpls(path, test=True, limit=60):
     names = glob.glob("F:/CASIA/CASIA-WebFace-112X96/*/*.jpg")
     names = sorted(names)
     # print(names[0])
-    idx = names.index(r"F:/CASIA/CASIA-WebFace-112X96\0000105\001.jpg")
+    idx = names.index(r"F:/CASIA/CASIA-WebFace-112X96\{}\005.jpg".format(start))
     print(idx)
     # quit()
 
@@ -292,4 +292,5 @@ def half_black(path):
 # for i in names:
 #     print(i)
 #     half_black(i)
-lpls("", False)
+
+lpls("", start="0100793", test=False)
