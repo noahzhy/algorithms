@@ -61,6 +61,8 @@ def detected_face(ac, face_path):
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     else:
         gray = image
+        return None
+
     # cv2.imshow("Input", image)
     rects = detector(gray)
 
@@ -163,14 +165,15 @@ def lpls(path, start="0000147", limit=60, test=True):
         print(iv)
         return None
 
-    names = glob.glob("F:/CASIA/CASIA-WebFace-112X96/*/*.jpg")
+    names = glob.glob("C:/temp/CASIA-WebFace-112X96/*/*.jpg")
     names = sorted(names)
     # print(names[0])
-    idx = names.index(r"F:/CASIA/CASIA-WebFace-112X96\{}\005.jpg".format(start))
-    print(idx)
+    # idx = names.index(r"C:/temp/CASIA-WebFace-112X96\{}\001.jpg".format(start))
+    # idx_end = names.index(r"C:/temp/CASIA-WebFace-112X96\{}\001.jpg".format("0100793"))
+    # print(idx)
     # quit()
 
-    for i in names[idx:]:
+    for i in names:
         cropped = detected_face(c, i)
         if (cropped is None):
             print("no face:", i)
@@ -283,7 +286,6 @@ def half_black(path):
     image = Image.open(path)
     new_image = Image.new('L', (96, 96), (0))
     new_image.paste(image.crop((0,0,96,48)))
-    # print(new_image)
     new_image.save(path)
 
 
@@ -293,4 +295,36 @@ def half_black(path):
 #     print(i)
 #     half_black(i)
 
-lpls("", start="0100793", test=False)
+# lpls("", start="0100793", test=False)
+# lpls("", start="1303492", test=False)
+# 0000045
+# lpls("", start="0000204", test=False)
+def del_gray():
+    names = glob.glob("C:/temp/CASIA-WebFace-112X96/*/*.jpg")
+    names = sorted(names)
+
+    for i in names:
+        image = cv_imread(i)
+        if len(image.shape) == 3:
+            pass
+        else:
+            print("gray face:", i)
+            os.remove(i)
+
+
+def crop_bottom(path):
+    im = Image.open(path)
+    im = im.crop((0,16,96,112))
+    im.save(path)
+
+
+
+names = glob.glob("C:/temp/CASIA-WebFace-96X96_half_black/*/*.jpg")
+names = sorted(names)
+num_names = len(names)
+names = random.sample(names, num_names//2)
+
+for i in names:
+    image = cv_imread(i)
+    half_black(i)
+
