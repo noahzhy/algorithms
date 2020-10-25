@@ -19,13 +19,13 @@ def get_inputs(src=[]):
     return pre_x
 
 
-predict_dir = 'predict_imgs'
+predict_dir = r'C:\temp\CASIA-WebFace-96X96_grayscale'
 test = os.listdir(predict_dir)
 print(test)
 
+start = test.index("0500614")
 
-
-for testpath in test:
+for testpath in test[start:]:
     images = []
     for fn in os.listdir(os.path.join(predict_dir, testpath)):
         if fn.endswith('jpg'):
@@ -33,8 +33,11 @@ for testpath in test:
             # print(fd)
             images.append(fd)
 
+    if len(images) == 0:
+        continue
     pre_x = get_inputs(images)
     pre_y = model.predict(pre_x)
     for idx, i in enumerate(pre_y):
         if i[0] > 0.5:
             print(images[idx])
+            os.remove(images[idx])
