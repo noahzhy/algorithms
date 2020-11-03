@@ -19,7 +19,7 @@ def get_inputs(src=[]):
     return pre_x
 
 
-predict_dir = r'predict_imgs/'
+predict_dir = r'C:\temp\CASIA-WebFace-96X96_grayscale_nosunglasses'
 test = os.listdir(predict_dir)
 # print(test)
 
@@ -42,4 +42,4 @@ for testpath in test[start:]:
     for idx, i in enumerate(pre_y):
         if i[0] > 0.5:
             print(images[idx])
-            # os.remove(images[idx])
+            os.remove(images[idx])
