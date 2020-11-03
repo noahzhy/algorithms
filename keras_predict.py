@@ -5,7 +5,7 @@ from PIL import Image
 from keras.models import load_model
 
 
-model = load_model("models/mohu.h5")
+model = load_model("models/pos_face.h5")
 model.summary()
 
 def get_inputs(src=[]):
