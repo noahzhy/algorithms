@@ -2,9 +2,9 @@ import os, glob, random
 from shutil import copyfile
 
 
-def random_choose(path, dst, num=400):
+def random_choose(path, dst, num=300):
     src = glob.glob(os.path.join(path, "*/*.jpg"))
-    res = random.sample(src, 400)
+    res = random.sample(src, num)
     print(res)
     for idx, i in enumerate(res):
         copyfile(i, os.path.join(dst, "{}_{}".format(idx, os.path.basename(i))))
@@ -43,6 +43,6 @@ def train_test_split(path:str, target_dir:str, rate:int):
 
 
 if __name__ == "__main__":
-    # random_choose("F:\CASIA\CASIA-WebFace-96X96_grayscale", r"PF\profile_face")
-    res = train_test_split("PF", "dataset", .8)
+    # random_choose("F:\CASIA\CASIA-WebFace-96X96_G_NG_PF_C", r"CE\eyes")
+    res = train_test_split("CE", "dataset", .8)
     print(res)
