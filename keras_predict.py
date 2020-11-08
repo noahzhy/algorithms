@@ -19,7 +19,7 @@ def get_inputs(src=[]):
     return pre_x
 
 
-predict_dir = r'C:\temp\CASIA-WebFace-96X96_G_NG_C'
+predict_dir = r'C:\temp\CASIA-WebFace-96X96_G_NG_PF_C'
 test = os.listdir(predict_dir)
 # print(test)
 

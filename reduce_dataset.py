@@ -318,21 +318,21 @@ def crop_bottom(path):
     im.save(path)
 
 
-# names = glob.glob("C:/temp/CASIA-WebFace-96X96_G_nosunglasses_clear/*")
-# names = sorted(names)
-# for i in names:
-#     th = glob.glob(os.path.join(i, "*.jpg"))
-#     if len(th) < 2:
-#         print(i)
-#         rmtree(i)
-
-
-names = glob.glob("C:/temp/CASIA-WebFace-96X96_G_nosunglasses_clear/*/*.jpg")
+names = glob.glob("C:/temp/CASIA-WebFace-96X96_G_NG_PF_EO_C/*")
 names = sorted(names)
-num_names = len(names)
-names = random.sample(names, num_names//2)
-
 for i in names:
-    image = cv_imread(i)
-    half_black(i)
+    th = glob.glob(os.path.join(i, "*.jpg"))
+    if len(th) < 2:
+        print(i)
+        rmtree(i)
+
+
+# names = glob.glob("C:/temp/CASIA-WebFace-96X96_G_nosunglasses_clear/*/*.jpg")
+# names = sorted(names)
+# num_names = len(names)
+# names = random.sample(names, num_names//2)
+
+# for i in names:
+#     image = cv_imread(i)
+#     half_black(i)
 
