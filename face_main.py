@@ -59,7 +59,7 @@ class AutoCrop():
         self.casc_path = CASCFILE
         self.width = width
         self.height = height
-        self.face_percent = check_positive_scalar(100)
+        self.face_percent = check_positive_scalar(87)
         self.aspect_ratio = 1
 
 

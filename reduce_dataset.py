@@ -56,7 +56,7 @@ def detected_face(ac, face_path):
     predictor = dlib.shape_predictor(predictor_path)
     fa = FaceAligner(predictor, desiredFaceWidth=256)
     image = cv_imread(face_path)
-    # image = imutils.resize(image, width=800) # added but not runned
+    image = imutils.resize(image, width=800) # added but not runned
     if len(image.shape) == 3:
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     else:
@@ -72,29 +72,33 @@ def detected_face(ac, face_path):
     for rect in rects:
         faceAligned = fa.align(image, gray, rect)
         fs = detector(faceAligned)
-        if len(fs) == 0:
-            continue
-        (x, y, w, h) = face_utils.rect_to_bb(fs[0])
-        image = ac.zoom_image(faceAligned, (x, y, w, h))
-        return image
+        faces = dlib.full_object_detections()
+        for i in range(len(fs)):
+            faces.append(predictor(faceAligned, fs[i]))
+        # if len(fs) == 0:
+        #     continue
+        # (x, y, w, h) = face_utils.rect_to_bb(fs[0])
+        faceAligned = dlib.get_face_chips(faceAligned, faces, size=96)
+        # image = ac.zoom_image(faceAligned, (x, y-6, w, h))
+        return faceAligned[0]
         # return ac.crop(faceAligned)
 
 
-c = ac(96, 96, 10)
+c = ac(96, 96)
 names = glob.glob(r"k_faces_test_imgs/*/*.jpg")
 names = sorted(names)
+names = random.sample(names, 1)
 # random.shuffle(names)
 for i in names:
     cropped = detected_face(c, i)
     if (cropped is None):
         print("no face:", i)
-        # os.remove(i)
+        os.remove(i)
     else:
         print("write:", i)
-        img = Image.fromarray(cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB)).save(i)
-        # img.show()
-        # # .save(i)
-    # break
+        img = Image.fromarray(cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB)).show()
+        # .save(i)
+    break
 
 
 
