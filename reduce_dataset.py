@@ -80,19 +80,21 @@ def detected_face(ac, face_path):
         # return ac.crop(faceAligned)
 
 
-# c = ac(96, 96, 10)
-# names = glob.glob(r"F:\LFW\lfw-deepfunneled_with_mask\*\*.jpg")
-# names = sorted(names)
-# # random.shuffle(names)
-# for i in names:
-#     cropped = detected_face(c, i)
-#     if (cropped is None):
-#         print("no face:", i)
-#         os.remove(i)
-#     else:
-#         print("write:", i)
-#         Image.fromarray(cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB)).save(i)
-#     # break
+c = ac(96, 96, 10)
+names = glob.glob(r"k_faces_test_imgs/*/*.jpg")
+names = sorted(names)
+# random.shuffle(names)
+for i in names:
+    cropped = detected_face(c, i)
+    if (cropped is None):
+        print("no face:", i)
+        # os.remove(i)
+    else:
+        print("write:", i)
+        img = Image.fromarray(cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB)).save(i)
+        # img.show()
+        # # .save(i)
+    # break
 
 
 
@@ -318,13 +320,13 @@ def crop_bottom(path):
     im.save(path)
 
 
-names = glob.glob("C:/temp/CASIA-WebFace-96X96_G_NG_PF_EO_C/*")
-names = sorted(names)
-for i in names:
-    th = glob.glob(os.path.join(i, "*.jpg"))
-    if len(th) < 2:
-        print(i)
-        rmtree(i)
+# names = glob.glob("C:/temp/CASIA-WebFace-96X96_G_NG_PF_EO_C/*")
+# names = sorted(names)
+# for i in names:
+#     th = glob.glob(os.path.join(i, "*.jpg"))
+#     if len(th) < 2:
+#         print(i)
+#         rmtree(i)
 
 
 # names = glob.glob("C:/temp/CASIA-WebFace-96X96_G_nosunglasses_clear/*/*.jpg")
