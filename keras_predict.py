@@ -5,21 +5,22 @@ from PIL import Image
 from keras.models import load_model
 
 
-model = load_model("models/closed_eyes_EX.h5")
+model = load_model("models/sunglasses.h5")
 model.summary()
 
 def get_inputs(src=[]):
     pre_x = []
     for s in src:
         im = Image.open(s)
-        im = np.array(im).reshape(96,96,1)
+        im = im.resize((64,64))
+        im = np.array(im).reshape(64,64,1)
         # input = cv2.cvtColor(input, cv2.COLOR_BGR2RGB)
         pre_x.append(im)
     pre_x = np.array(pre_x) / 255.0
     return pre_x
 
 
-predict_dir = r'C:\temp\CASIA-WebFace-96X96_G_NG_PF_C'
+predict_dir = r'C:\Users\JX_COSMETICS\Downloads\K_faces_OF_G'
 test = os.listdir(predict_dir)
 # print(test)
 

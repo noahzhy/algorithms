@@ -75,31 +75,32 @@ def detected_face(ac, face_path):
         faces = dlib.full_object_detections()
         for i in range(len(fs)):
             faces.append(predictor(faceAligned, fs[i]))
-        # if len(fs) == 0:
-        #     continue
+        if len(fs) == 0:
+            continue
         # (x, y, w, h) = face_utils.rect_to_bb(fs[0])
         faceAligned = dlib.get_face_chips(faceAligned, faces, size=96)
         # image = ac.zoom_image(faceAligned, (x, y-6, w, h))
         return faceAligned[0]
         # return ac.crop(faceAligned)
+    
+    return None
 
 
-c = ac(96, 96)
-names = glob.glob(r"k_faces_test_imgs/*/*.jpg")
-names = sorted(names)
-names = random.sample(names, 1)
-# random.shuffle(names)
-for i in names:
-    cropped = detected_face(c, i)
-    if (cropped is None):
-        print("no face:", i)
-        os.remove(i)
-    else:
-        print("write:", i)
-        img = Image.fromarray(cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB)).show()
-        # .save(i)
-    break
+# c = ac(96, 96)
+# names = glob.glob(r"C:/Users/JX_COSMETICS/Downloads/K_faces/*/*.jpg")
+# names = sorted(names)
+# # names = random.sample(names, 1)
+# # random.shuffle(names)
+# for i in names:
+#     cropped = detected_face(c, i)
+#     if (cropped is None):
+#         print("no face:", i)
+#         os.remove(i)
+#     else:
+#         print("write:", i)
+#         img = Image.fromarray(cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB)).save(i)
 
+#     # break
 
 
 def get_file_size_full(filePath):
@@ -251,12 +252,14 @@ def rename_all():
 
 
 def all_to_grayscale():
-    names = glob.glob("F:/CHN_faces/chinese_cleaned_96px_grayscale/*/*.jpg")
+    names = glob.glob(r"C:/Users/JX_COSMETICS/Downloads/K_faces/*/*.jpg")
     names = sorted(names)
     for i in names:
         print(i)
         Image.open(i).convert("L").save(i)
 
+
+# all_to_grayscale()
 
 def to_pinyin(s):
     return ''.join(chain.from_iterable(pinyin(s, style=Style.TONE3)))
@@ -324,13 +327,12 @@ def crop_bottom(path):
     im.save(path)
 
 
-# names = glob.glob("C:/temp/CASIA-WebFace-96X96_G_NG_PF_EO_C/*")
-# names = sorted(names)
-# for i in names:
-#     th = glob.glob(os.path.join(i, "*.jpg"))
-#     if len(th) < 2:
-#         print(i)
-#         rmtree(i)
+names = glob.glob("C:/temp/Mega_EX/*/*.jpg")
+names = sorted(names)
+num_names = len(names)
+names = random.sample(names, num_names//2)
+for i in names:
+    half_black(i)
 
 
 # names = glob.glob("C:/temp/CASIA-WebFace-96X96_G_nosunglasses_clear/*/*.jpg")
