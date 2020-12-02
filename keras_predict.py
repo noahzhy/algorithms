@@ -11,7 +11,9 @@ model.summary()
 def get_inputs(src=[]):
     pre_x = []
     for s in src:
-        im = Image.open(s)
+        # print(s)
+        im = Image.open(s).convert('L')
+        # im = im.covert()
         im = im.resize((64,64))
         im = np.array(im).reshape(64,64,1)
         # input = cv2.cvtColor(input, cv2.COLOR_BGR2RGB)
@@ -20,7 +22,7 @@ def get_inputs(src=[]):
     return pre_x
 
 
-predict_dir = r'C:\Users\JX_COSMETICS\Downloads\K_faces_OF_G'
+predict_dir = r'F:/mfr2'
 test = os.listdir(predict_dir)
 # print(test)
 
